@@ -8,10 +8,11 @@ pg.connect(config.get('pgConfig'), function(err, client) {
   connection = client;
 });
 
-var client = mqtt.connect();
+var configMqtt = JSON.parse(JSON.stringify(config.get('mqttConfig')));
+var client = mqtt.connect(configMqtt);
 
 client.on("message", function(topic, payload) {
-  if (topic=='message')
+  if (topic==config.get('subscribeChannel'))
   connection.query(
     'INSERT INTO '+config.get('pgTable')+' (timestamp, topic, data) VALUES ($1,$2,$3)',
     [new Date(),topic, JSON.parse(payload)],
@@ -22,4 +23,4 @@ client.on("message", function(topic, payload) {
     });
 });
 
-client.subscribe("message");
+client.subscribe(config.get('subscribeChannel'));
