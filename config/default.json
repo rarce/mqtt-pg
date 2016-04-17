@@ -1,0 +1,8 @@
+{
+  "pgConfig": {
+    "host": "localhost",
+    "port": 5432,
+    "database": "iot"
+  },
+  "pgTable": "events"
+}
